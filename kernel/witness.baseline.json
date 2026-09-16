@@ -1,0 +1,12 @@
+[
+  {
+    "mutation": "> → >=",
+    "snippet": "const max = Number.isFinite(n) && n > 0 ? Math.floor(n) : 0;",
+    "reason": "kit.mjs clip — EQUIVALENT: > and >= differ only at n===0, where the true branch gives Math.floor(0)===0 and the false branch gives 0. max is 0 either way, so clip returns the string unchanged both ways."
+  },
+  {
+    "mutation": "&& → ||",
+    "snippet": "const max = Number.isFinite(n) && n > 0 ? Math.floor(n) : 0;",
+    "reason": "kit.mjs clip — EQUIVALENT: the only inputs where isFinite(n) and n>0 disagree are the non-finite numbers. NaN>0 is false (both forms false). +Infinity>0 makes || true, giving max=floor(Infinity)=Infinity, but then str.length<=Infinity is always true so clip returns the full string — exactly what the && form (max=0 -> return str) does. Observably identical."
+  }
+]

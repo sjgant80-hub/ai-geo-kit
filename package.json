@@ -1,0 +1,14 @@
+{
+  "name": "ai-geo-kit",
+  "version": "0.1.0",
+  "description": "Generate a repo's AI/GEO surface (llms.txt, robots.txt with AI crawlers opted in, sitemap.xml, schema.org) from its metadata, so AI answer-engines find and cite it. Witness-gated; estate-wide rollout runner included.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test test/kit.test.mjs",
+    "gate": "node konomi/run-gate.mjs",
+    "rollout": "node rollout.mjs"
+  },
+  "keywords": ["geo","generative-engine-optimization","llms-txt","schema-org","robots-txt","ai-search","sovereign","proof-of-play"],
+  "engines": { "node": ">=20" }
+}

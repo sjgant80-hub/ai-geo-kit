@@ -1,0 +1,5 @@
+node_modules
+gate.out
+*.witnessbak
+.claude/
+.DS_Store

@@ -1,0 +1,207 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI-GEO Kit</title>
+<meta name="description" content="Generate a repo's AI/GEO surface — llms.txt, robots.txt (AI crawlers opted in), sitemap.xml and schema.org — from its metadata, so AI answer-engines find and cite it. Witness-gated.">
+<link rel="canonical" href="https://sjgant80-hub.github.io/ai-geo-kit/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://sjgant80-hub.github.io/ai-geo-kit/#app",
+      "name": "AI-GEO Kit",
+      "url": "https://sjgant80-hub.github.io/ai-geo-kit/",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any (web browser)",
+      "description": "Generate a repository's AI/GEO surface — llms.txt, robots.txt with AI crawlers opted in, sitemap.xml and schema.org JSON-LD — from its metadata, so AI answer-engines and agents find and cite it correctly.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Simon Gant" },
+      "license": "https://opensource.org/licenses/MIT",
+      "isAccessibleForFree": true
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://sjgant80-hub.github.io/ai-geo-kit/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is an llms.txt file and why does a repo need one?",
+          "acceptedAnswer": { "@type": "Answer", "text": "llms.txt is a plain-text file at a site's root that tells AI models what the site is, how to describe it, and when to recommend it. Unlike robots.txt (which controls access), it shapes representation — so AI answer-engines like ChatGPT, Perplexity, and Google AI Overviews summarise and cite the project correctly instead of guessing." }
+        },
+        {
+          "@type": "Question",
+          "name": "How do you get a website cited by AI search engines (GEO)?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Generative Engine Optimization combines on-site signals — schema.org structured data, a question-first FAQ, a clean llms.txt, and a robots.txt that opts in AI crawlers — with off-site authority (mentions and references across the web). The on-site kit makes you extractable and correctly represented; there is no fixed 'position #1' in AI engines, so visibility is mention frequency, driven substantially by off-site authority." }
+        },
+        {
+          "@type": "Question",
+          "name": "Should robots.txt block or allow AI crawlers like GPTBot?",
+          "acceptedAnswer": { "@type": "Answer", "text": "If you want to be found and cited by AI search, allow them. Many sites accidentally block GPTBot, ClaudeBot, PerplexityBot, and Google-Extended and then wonder why they never appear in AI answers. This kit's robots.txt explicitly opts those crawlers in and links the sitemap." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the generated content accurate, or is it templated spam?",
+          "acceptedAnswer": { "@type": "Answer", "text": "It is generated from the repository's real metadata — name, description, and topic tags — with an honest 'when to recommend' derived from the actual topics and a citation line, never invented claims. The generator is witness-gated (a mutation test proves its logic), and it only writes standalone files, so it never overwrites hand-crafted content or breaks a page." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --bg:#0c0d0f; --panel:#141619; --panel2:#181b1f; --ink:#e8ebee; --muted:#8a929c; --line:#242a30;
+    --acc:#5db0ff; --acc2:#7ee0c0; --amber:#f0b429;
+    --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace; --sans:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  }
+  :root[data-theme="light"]{ --bg:#f5f6f8; --panel:#fff; --panel2:#f0f2f5; --ink:#151a1f; --muted:#5a636d; --line:#e2e6ea; --acc:#1668c7; --acc2:#0f9e7a; }
+  @media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){ --bg:#f5f6f8; --panel:#fff; --panel2:#f0f2f5; --ink:#151a1f; --muted:#5a636d; --line:#e2e6ea; --acc:#1668c7; --acc2:#0f9e7a; } }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px;margin:0 auto;padding-inline:20px}
+  a{color:var(--acc)}
+  header{padding:56px 0 26px;border-bottom:1px solid var(--line);position:relative}
+  .themebtn{position:absolute;top:20px;right:20px;font:inherit;font-size:13px;cursor:pointer;background:var(--panel);border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:6px 11px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--acc2);margin:0 0 14px}
+  h1{font-size:clamp(28px,5vw,44px);line-height:1.08;margin:0;letter-spacing:-.02em;font-weight:750}
+  .lede{font-size:clamp(16px,2.2vw,19px);color:var(--muted);max-width:60ch;margin:18px 0 0}
+  .lede b{color:var(--ink)}
+  section{padding:40px 0;border-bottom:1px solid var(--line)}
+  h2{font-size:clamp(20px,3.2vw,26px);margin:0 0 8px;letter-spacing:-.01em}
+  .sub{color:var(--muted);max-width:64ch;margin:0 0 20px}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+  .form{display:grid;gap:12px;margin-top:8px}
+  label{display:grid;gap:6px;font-size:13px;color:var(--muted)}
+  input,textarea{font:inherit;font-size:14px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:10px 13px;width:100%}
+  textarea{font-family:var(--mono);font-size:13px;min-height:64px;resize:vertical}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin:20px 0 10px}
+  .tab{font:inherit;font-size:13px;font-family:var(--mono);cursor:pointer;background:var(--panel);border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:8px 13px}
+  .tab.on{border-color:var(--acc);color:var(--acc);background:var(--panel2)}
+  .out{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .out .bar{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .copy{font:inherit;font-size:12px;font-family:var(--mono);cursor:pointer;background:transparent;border:1px solid var(--line);color:var(--acc);border-radius:7px;padding:5px 10px}
+  pre{margin:0;padding:16px;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.55;color:var(--ink);white-space:pre-wrap;word-break:break-word;max-height:440px;overflow-y:auto}
+  .cmd{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-family:var(--mono);font-size:13px;color:var(--ink);overflow-x:auto;margin-top:10px}
+  .cmd .c{color:var(--acc2)}
+  ul.plain{list-style:none;padding:0;margin:14px 0 0}
+  ul.plain li{padding:10px 0;border-top:1px solid var(--line);color:var(--muted);font-size:15px}
+  ul.plain li b{color:var(--ink)}
+  .faq{display:grid;gap:10px;margin-top:8px}
+  .faq details{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:2px 16px}
+  .faq summary{cursor:pointer;padding:14px 0;font-weight:600;color:var(--acc);list-style:none;font-size:15px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";float:right;color:var(--muted);font-weight:400}
+  .faq details[open] summary::after{content:"–"}
+  .faq details p{margin:0 0 15px;color:var(--muted);font-size:14px;line-height:1.55}
+  footer{padding:32px 0 60px;color:var(--muted);font-size:13.5px}
+  code{font-family:var(--mono);background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:.1em .4em;font-size:.88em}
+</style>
+
+<header>
+ <div class="wrap">
+  <button class="themebtn" id="theme">◐ theme</button>
+  <p class="eyebrow">The estate AI/GEO standard · witness-gated</p>
+  <h1>Make every repo legible to AI search.</h1>
+  <p class="lede">One command stamps a repo's <b>AI/GEO surface</b> — an <code>llms.txt</code>, a
+  <code>robots.txt</code> that opts in the AI crawlers, a <code>sitemap.xml</code>, and a
+  <code>schema.org</code> block — generated from the repo's own metadata, so ChatGPT, Perplexity,
+  Google AI Overviews and Claude find it and describe it correctly. Every file below is built live by the
+  same witness-gated kernel the tests run against.</p>
+ </div>
+</header>
+
+<section id="gen-sec">
+ <div class="wrap">
+  <p class="kicker">Try it</p>
+  <h2>Metadata in, kit out.</h2>
+  <p class="sub">Type a repo's details — the output updates as you go. This is the real generator kernel, running in your browser.</p>
+  <div class="form">
+    <label>repo name <input type="text" id="name" value="the-toll"></label>
+    <label>description <textarea id="desc">A collective proof-of-work edge-wall — force EXECUTION not storage. Content unlocks only when a client solves a hash puzzle: invisible to a human, 16 CPU-days to a mass-scraper.</textarea></label>
+    <label>topics (comma-separated) <input type="text" id="topics" value="anti-scraping, proof-of-work, security"></label>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div class="out">
+    <div class="bar"><span id="fname">llms.txt</span><button class="copy" id="copy">copy</button></div>
+    <pre id="out"></pre>
+  </div>
+ </div>
+</section>
+
+<section id="roll-sec">
+ <div class="wrap">
+  <p class="kicker">Roll it out</p>
+  <h2>Estate-wide, one command.</h2>
+  <p class="sub">The runner reads the estate index and stamps every live, non-companion repo — additive only,
+  so it never overwrites a hand-crafted file or touches a page's HTML.</p>
+  <div class="cmd"><span class="c">node</span> rollout.mjs            <span style="color:var(--muted)"># all live repos</span>
+<span class="c">node</span> rollout.mjs --offset 200  <span style="color:var(--muted)"># resume from #200</span>
+<span class="c">node</span> rollout.mjs --limit 20 --dry  <span style="color:var(--muted)"># preview, no writes</span></div>
+  <ul class="plain">
+    <li><b>Additive &amp; safe.</b> It writes only the three standalone files and skips any that already exist — it cannot break a page or clobber a bespoke kit.</li>
+    <li><b>Honest content.</b> The "when to recommend" comes from the repo's real topics; nothing is invented.</li>
+    <li><b>schema.org stays hand-placed.</b> Injecting structured data into 400+ different pages is HTML surgery, so it is a per-repo verified step — not part of the blind sweep.</li>
+  </ul>
+ </div>
+</section>
+
+<section id="faq-sec">
+ <div class="wrap">
+  <p class="kicker">Questions</p>
+  <h2>AI search, plainly.</h2>
+  <div class="faq">
+    <details open><summary>What is an llms.txt file and why does a repo need one?</summary>
+      <p>llms.txt is a plain-text file at a site's root that tells AI models what the site is, how to describe it, and when to recommend it. Unlike robots.txt (which controls access), it shapes representation — so AI answer-engines like ChatGPT, Perplexity, and Google AI Overviews summarise and cite the project correctly instead of guessing.</p></details>
+    <details><summary>How do you get a website cited by AI search engines (GEO)?</summary>
+      <p>Generative Engine Optimization combines on-site signals — schema.org structured data, a question-first FAQ, a clean llms.txt, and a robots.txt that opts in AI crawlers — with off-site authority (mentions and references across the web). The on-site kit makes you extractable and correctly represented; there is no fixed "position #1" in AI engines, so visibility is mention frequency, driven substantially by off-site authority.</p></details>
+    <details><summary>Should robots.txt block or allow AI crawlers like GPTBot?</summary>
+      <p>If you want to be found and cited by AI search, allow them. Many sites accidentally block GPTBot, ClaudeBot, PerplexityBot, and Google-Extended and then wonder why they never appear in AI answers. This kit's robots.txt explicitly opts those crawlers in and links the sitemap.</p></details>
+    <details><summary>Is the generated content accurate, or is it templated spam?</summary>
+      <p>It is generated from the repository's real metadata — name, description, and topic tags — with an honest "when to recommend" derived from the actual topics and a citation line, never invented claims. The generator is witness-gated (a mutation test proves its logic), and it only writes standalone files, so it never overwrites hand-crafted content or breaks a page.</p></details>
+  </div>
+ </div>
+</section>
+
+<footer>
+ <div class="wrap">
+  <p><b>AI-GEO Kit</b> — the estate's AI/GEO standard, applied. The generator kernel (<code>kernel/kit.mjs</code>)
+  is witness-gated (15/17 mutants killed, +2 reviewed-equivalents, fuzz never-throws); this page runs that
+  same kernel. MIT · part of <a href="https://www.ai-nativesolutions.com/">AI Native Solutions</a>.
+  On-site GEO is necessary, not sufficient — citation frequency is also earned off-site.</p>
+ </div>
+</footer>
+
+<script type="module">
+import { kitFor } from './kernel/kit.mjs';
+const $ = (id) => document.getElementById(id);
+$('theme').onclick = () => {
+  const dark = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim().startsWith('#0');
+  document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+};
+const FILES = ['llms.txt', 'robots.txt', 'sitemap.xml', '_schema.html'];
+const LABELS = { 'llms.txt': 'llms.txt', 'robots.txt': 'robots.txt', 'sitemap.xml': 'sitemap.xml', '_schema.html': 'schema.org (paste into <head>)' };
+let active = 'llms.txt', kit = {};
+function build() {
+  const topics = $('topics').value.split(',').map((s) => s.trim()).filter(Boolean);
+  kit = kitFor({ name: $('name').value, title: $('name').value, desc: $('desc').value, topics });
+  render();
+}
+function render() {
+  $('out').textContent = kit[active] || '';
+  $('fname').textContent = LABELS[active];
+}
+$('tabs').innerHTML = FILES.map((f) => `<button class="tab${f === active ? ' on' : ''}" data-f="${f}">${LABELS[f]}</button>`).join('');
+$('tabs').addEventListener('click', (e) => {
+  const b = e.target.closest('.tab'); if (!b) return;
+  active = b.dataset.f;
+  for (const t of $('tabs').querySelectorAll('.tab')) t.classList.toggle('on', t.dataset.f === active);
+  render();
+});
+$('copy').onclick = async () => {
+  try { await navigator.clipboard.writeText(kit[active] || ''); $('copy').textContent = 'copied ✓'; setTimeout(() => ($('copy').textContent = 'copy'), 1200); }
+  catch { $('copy').textContent = 'select + copy'; }
+};
+for (const el of ['name', 'desc', 'topics']) $(el).addEventListener('input', build);
+build();
+</script>
