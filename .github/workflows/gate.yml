@@ -1,0 +1,13 @@
+name: gate
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: tests
+        run: node --test test/kit.test.mjs
+      - name: witness must be CLEAN
+        run: node konomi/run-gate.mjs
