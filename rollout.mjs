@@ -42,6 +42,9 @@ function ghPut(repo, path, content, msg) {
   execFileSync('gh', ['api', '-X', 'PUT', `repos/${OWNER}/${repo}/contents/${path}`,
     '-f', `message=${msg}`, '-f', `content=${b64}`], { stdio: 'pipe' });
 }
+// GitHub throttles rapid content-writes (secondary rate limit); pace them with a sync pause.
+const PAUSE_MS = 400;
+function pace() { try { Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, PAUSE_MS); } catch {} }
 
 let created = 0, skipped = 0, failed = 0, reposTouched = 0;
 for (let i = 0; i < slice.length; i++) {
@@ -51,7 +54,7 @@ for (let i = 0; i < slice.length; i++) {
   for (const f of SAFE_FILES) {
     try {
       if (ghExists(n.name, f)) { skipped++; continue; }
-      if (!dry) ghPut(n.name, f, kit[f], 'add AI/GEO kit: ' + f + ' — llms.txt/robots/sitemap for AI-search discoverability');
+      if (!dry) { ghPut(n.name, f, kit[f], 'add AI/GEO kit: ' + f + ' — llms.txt/robots/sitemap for AI-search discoverability'); pace(); }
       created++; repoCreated++;
     } catch (e) { failed++; console.error('  FAIL', n.name, f, String(e.message).slice(0, 90)); }
   }
