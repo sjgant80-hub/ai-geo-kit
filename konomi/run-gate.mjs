@@ -4,7 +4,7 @@
 // actually hold.
 import { runMutations, fuzz } from './witness.mjs';
 import {
-  slug, pagesUrl, repoUrl, esc, jsonStr, clip, recommendLines,
+  slug, pagesUrl, repoUrl, actionsUrl, esc, jsonStr, clip, recommendLines,
   robotsTxt, sitemapXml, llmsTxt, schemaLd, kitFor,
 } from '../kernel/kit.mjs';
 
@@ -26,6 +26,7 @@ for (const [name, fn] of Object.entries({
   'slug': (x) => slug(x),
   'pagesUrl': (x) => pagesUrl(x),
   'repoUrl': (x) => repoUrl(x),
+  'actionsUrl': (x) => actionsUrl(x),
   'esc': (x) => esc(x),
   'jsonStr': (x) => jsonStr(x),
   'clip': (x) => clip(x, x),

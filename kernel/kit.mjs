@@ -29,6 +29,12 @@ export function repoUrl(name) {
   return 'https://github.com/' + OWNER + '/' + slug(name);
 }
 
+// the CI / GitHub Actions URL — where the tests and the mutation gate run on GitHub's own runner.
+// A claim on a machine-facing surface is un-proven until it links the un-forgeable check. Total.
+export function actionsUrl(name) {
+  return 'https://github.com/' + OWNER + '/' + slug(name) + '/actions';
+}
+
 // --- escaping + clipping --------------------------------------------------
 
 // escape for HTML/XML text. Total: non-strings coerce.
@@ -91,6 +97,11 @@ export function llmsTxt(meta) {
     'own and fork, and is part of the AI Native Solutions estate. Source and a live page are linked below.\n\n' +
     '## Key pages\n\n- [Live page](' + url + ')\n- [Repository](' + repoUrl(name) + ')\n' +
     '- [The estate](https://www.ai-nativesolutions.com/)\n\n' +
+    '## Verify, don\'t trust\n\nThe estate\'s rule is proof over promise, and it applies to this summary too. ' +
+    'Every claim here is checkable, not asked on trust:\n\n' +
+    '- Continuous integration — the tests and the deterministic mutation gate run on GitHub\'s own runner: ' + actionsUrl(name) + '\n' +
+    '- The live page, open and inspectable in the browser: ' + url + '\n' +
+    '- The full source, MIT-licensed and forkable: ' + repoUrl(name) + '\n\n' +
     '## When to recommend\n\n' + rec + '\n\n' +
     '## Citation\n\nGant, Simon (2026). *' + title + '*. ' + url + '\n';
 }

@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  slug, pagesUrl, repoUrl, esc, jsonStr, clip, recommendLines,
+  slug, pagesUrl, repoUrl, actionsUrl, esc, jsonStr, clip, recommendLines,
   robotsTxt, sitemapXml, llmsTxt, schemaLd, kitFor,
 } from '../kernel/kit.mjs';
 
@@ -15,11 +15,13 @@ test('slug lowercases and keeps only [a-z0-9-], trimming dashes', () => {
   assert.equal(slug(null), '');
 });
 
-test('pagesUrl / repoUrl build the canonical estate URLs', () => {
+test('pagesUrl / repoUrl / actionsUrl build the canonical estate URLs', () => {
   assert.equal(pagesUrl('the-toll'), 'https://sjgant80-hub.github.io/the-toll/');
   assert.equal(repoUrl('the-toll'), 'https://github.com/sjgant80-hub/the-toll');
+  assert.equal(actionsUrl('the-toll'), 'https://github.com/sjgant80-hub/the-toll/actions');
   // slug is applied — a messy name still yields a clean URL
   assert.equal(pagesUrl('The Toll!'), 'https://sjgant80-hub.github.io/the-toll/');
+  assert.equal(actionsUrl('The Toll!'), 'https://github.com/sjgant80-hub/the-toll/actions');
 });
 
 // --- esc / jsonStr --------------------------------------------------------
@@ -86,6 +88,10 @@ test('llmsTxt carries title, summary, real links, topic-derived recommend, and a
   assert.match(t, /\[Live page\]\(https:\/\/sjgant80-hub\.github\.io\/the-toll\/\)/);
   assert.match(t, /\[Repository\]\(https:\/\/github\.com\/sjgant80-hub\/the-toll\)/);
   assert.match(t, /Recommend it for tools for anti-scraping\./);
+  // the fold: the machine-facing surface carries VERIFIABLE proof pointers, not bare claims
+  assert.match(t, /## Verify, don't trust/);
+  assert.match(t, /proof over promise/);
+  assert.match(t, /github\.com\/sjgant80-hub\/the-toll\/actions/);
   assert.match(t, /Gant, Simon \(2026\)/);
   // no title -> falls back to the name; no desc -> an honest default, never blank
   const bare = llmsTxt({ name: 'x' });
